@@ -11,6 +11,7 @@
       <set>
         <option value="$PROJECT_DIR$/awooapi-graphql/pom.xml" />
         <option value="$PROJECT_DIR$/awooapi-server-javalin/pom.xml" />
+        <option value="$PROJECT_DIR$/awooapi-server-netty/pom.xml" />
       </set>
     </option>
   </component>

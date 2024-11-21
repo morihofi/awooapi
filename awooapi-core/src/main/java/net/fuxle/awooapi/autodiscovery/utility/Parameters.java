@@ -1,18 +1,21 @@
 package net.fuxle.awooapi.autodiscovery.utility;
 
 
+import com.google.gson.Gson;
 import graphql.schema.DataFetchingEnvironment;
 import net.fuxle.awooapi.server.intf.HandlerContext;
 import net.fuxle.awooapi.utilities.internals.IPAddressChecker;
+
+import java.io.IOException;
 
 public class Parameters {
 
     private final HandlerContext handlerContext;
     private final DataFetchingEnvironment graphQLDatafetchingEnvironment;
+    private static final Gson gson = new Gson();
 
-    public <T> T getRequestBodyAs(Class<T> targetClass) {
-        throw new UnsupportedOperationException("Not implemented");
-        //return // handlerContext.bodyAsClass(targetClass);
+    public <T> T getRequestBodyAs(Class<T> targetClass) throws IOException {
+        return gson.fromJson(handlerContext.body(), targetClass);
     }
 
     public String getUserAgent() {
