@@ -1,0 +1,42 @@
+package net.fuxle.awooapi.server.jetty;
+
+import jakarta.servlet.http.HttpServletResponse;
+import net.fuxle.awooapi.server.intf.Response;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+public class HttpResponseWrapper extends Response {
+    private final HttpServletResponse response;
+    private final Map<String, String> headers = new HashMap<>();
+
+    public HttpResponseWrapper(HttpServletResponse response) {
+        this.response = response;
+    }
+
+    @Override
+    public void setHeader(String name, String value) {
+        response.setHeader(name, value);
+        headers.put(name, value);
+    }
+
+    @Override
+    public String getHeader(String name) {
+        return headers.get(name);
+    }
+
+    @Override
+    public Map<String, String> getHeaders() {
+        return headers;
+    }
+
+    @Override
+    public void setBodyBytes(byte[] data) {
+        try {
+            response.getOutputStream().write(data);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
