@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-public record HandlerContext(Request request, Response response) {
+public record HandlerContext(Request request, Response response, Router router) {
     public void header(String name, String value) {
         response.setHeader(name, value);
     }
@@ -26,7 +26,7 @@ public record HandlerContext(Request request, Response response) {
     }
 
     public String pathParam(String paramName) {
-        throw new UnsupportedOperationException("Not implemented");
+        return router.getPathParam(path(), paramName);
     }
 
     public String body() throws IOException {

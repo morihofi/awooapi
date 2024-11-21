@@ -36,5 +36,10 @@ public class HttpRequestWrapper implements Request {
     public String getIP() {
         return request.getRemoteAddr();
     }
-}
 
+
+    @Override
+    public String getQueryParam(String name) {
+        return request.getParameter(name);
+    }
+}

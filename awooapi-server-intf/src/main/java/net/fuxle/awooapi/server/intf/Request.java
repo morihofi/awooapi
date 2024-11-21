@@ -8,5 +8,5 @@ public interface Request {
     String getHeader(String name);
     String getBody() throws IOException;
     String getIP();
+    String getQueryParam(String name);
 }
-

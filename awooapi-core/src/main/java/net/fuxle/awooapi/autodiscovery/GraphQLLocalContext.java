@@ -3,8 +3,8 @@ package net.fuxle.awooapi.autodiscovery;
 import net.fuxle.awooapi.server.intf.HandlerContext;
 
 /**
- * A class representing a local context for GraphQL execution, containing a Javalin HTTP context.
- * This class is used to provide additional context information, such as the Javalin context, to GraphQL execution.
+ * A class representing a local context for GraphQL execution, containing a HTTP context.
+ * This class is used to provide additional context information, such as the http context, to GraphQL execution.
  *
  * @param handlerContext The HTTP context associated with the GraphQL execution.
  * @author Moritz Hofmann

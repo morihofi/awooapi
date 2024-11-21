@@ -58,6 +58,19 @@ public class Router {
         return null; // No matching handler
     }
 
+    public String getPathParam(String path, String param) {
+        for (HandlerType type : HandlerType.values()) {
+            List<VariableEndpoint> varEndpoints = variableHandlers.getOrDefault(type, Collections.emptyList());
+            for (VariableEndpoint variableEndpoint : varEndpoints) {
+                Map<String, String> pathVariables = variableEndpoint.match(path);
+                if (pathVariables != null && pathVariables.containsKey(param)) {
+                    return pathVariables.get(param);
+                }
+            }
+        }
+        return null; // Parameter not found
+    }
+
     private static class VariableEndpoint {
         private final String template;
         private final Endpoint endpoint;

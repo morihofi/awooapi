@@ -73,10 +73,11 @@ public class AwooApiServlet extends HttpServlet {
         }
     }
 
-    private static HandlerContext getHandlerContext(HttpServletRequest req, HttpServletResponse resp) {
+    private HandlerContext getHandlerContext(HttpServletRequest req, HttpServletResponse resp) {
         return new HandlerContext(
                 new HttpRequestWrapper(req),
-                new HttpResponseWrapper(resp)
+                new HttpResponseWrapper(resp),
+                webServer.getRouter()
         );
     }
 }

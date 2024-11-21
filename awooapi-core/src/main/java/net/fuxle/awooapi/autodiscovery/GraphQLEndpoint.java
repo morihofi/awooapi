@@ -56,7 +56,7 @@ public class GraphQLEndpoint implements Handler {
     /**
      * Handles the incoming HTTP request as a GraphQL query and returns the JSON response.
      *
-     * @param ctx The Javalin HTTP context for handling the request.
+     * @param ctx The HTTP context for handling the request.
      * @throws Exception If an error occurs during request processing.
      */
     @Override
