@@ -6,10 +6,20 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Represents a Router that manages the mapping of paths to handlers.
+ * The Router handles the routing logic, allowing handlers to be registered and retrieved
+ * based on the request path and HTTP method type.
+ */
 public class Router {
     private final Map<HandlerType, Map<String, Endpoint>> staticHandlers = new HashMap<>();
     private final Map<HandlerType, List<VariableEndpoint>> variableHandlers = new HashMap<>();
 
+    /**
+     * Adds a new handler to the router.
+     *
+     * @param endpoint The {@code Endpoint} containing the handler to be added.
+     */
     public void addHandler(Endpoint endpoint) {
         HandlerType type = endpoint.getType();
         String path = endpoint.getPath();
@@ -25,6 +35,11 @@ public class Router {
         }
     }
 
+    /**
+     * Removes a handler for the given path from the router.
+     *
+     * @param path The path of the handler to remove.
+     */
     public void removeHandler(String path) {
         for (HandlerType type : HandlerType.values()) {
             staticHandlers.getOrDefault(type, Collections.emptyMap()).remove(path);
@@ -34,10 +49,24 @@ public class Router {
         }
     }
 
+    /**
+     * Retrieves the handler for a given path and method.
+     *
+     * @param path  The request path.
+     * @param method The HTTP method as a {@code String}.
+     * @return The corresponding {@code Handler}, or {@code null} if no handler matches.
+     */
     public Handler getHandler(String path, String method) {
         return getHandler(path, HandlerType.valueOf(method));
     }
 
+    /**
+     * Retrieves the handler for a given path and {@code HandlerType}.
+     *
+     * @param path   The request path.
+     * @param method The {@code HandlerType} representing the HTTP method.
+     * @return The corresponding {@code Handler}, or {@code null} if no handler matches.
+     */
     public Handler getHandler(String path, HandlerType method) {
         // Check for static path
         Endpoint staticEndpoint = staticHandlers.getOrDefault(method, Collections.emptyMap()).get(path);
@@ -58,6 +87,13 @@ public class Router {
         return null; // No matching handler
     }
 
+    /**
+     * Retrieves the value of a specific path parameter from the request path.
+     *
+     * @param path  The request path.
+     * @param param The name of the parameter to retrieve.
+     * @return The value of the specified parameter, or {@code null} if not found.
+     */
     public String getPathParam(String path, String param) {
         for (HandlerType type : HandlerType.values()) {
             List<VariableEndpoint> varEndpoints = variableHandlers.getOrDefault(type, Collections.emptyList());
@@ -71,12 +107,21 @@ public class Router {
         return null; // Parameter not found
     }
 
+    /**
+     * Represents a variable-based endpoint with dynamic path matching.
+     */
     private static class VariableEndpoint {
         private final String template;
         private final Endpoint endpoint;
         private final Pattern pattern;
         private final List<String> variableNames;
 
+        /**
+         * Constructs a {@code VariableEndpoint} with the given template and endpoint.
+         *
+         * @param template The template string containing variables (e.g., "/api/{id}").
+         * @param endpoint The {@code Endpoint} associated with this variable path.
+         */
         public VariableEndpoint(String template, Endpoint endpoint) {
             this.template = template;
             this.endpoint = endpoint;
@@ -84,6 +129,12 @@ public class Router {
             this.pattern = compileTemplate(template);
         }
 
+        /**
+         * Compiles a path template into a regex {@code Pattern}.
+         *
+         * @param template The template string containing variables (e.g., "/api/{id}").
+         * @return The compiled {@code Pattern} for matching request paths.
+         */
         private Pattern compileTemplate(String template) {
             StringBuilder regex = new StringBuilder();
             Matcher matcher = Pattern.compile("\\{([^/]+)}").matcher(template);
@@ -104,7 +155,12 @@ public class Router {
             return Pattern.compile("^" + regex + "$");
         }
 
-
+        /**
+         * Matches a given path against the template pattern and extracts variables.
+         *
+         * @param path The request path to match.
+         * @return A map of variable names to values, or {@code null} if the path does not match.
+         */
         public Map<String, String> match(String path) {
             Matcher matcher = pattern.matcher(path);
             if (!matcher.matches()) {

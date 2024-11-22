@@ -5,7 +5,18 @@ import net.fuxle.awooapi.server.intf.HandlerContext;
 import net.fuxle.awooapi.server.intf.HttpStatusCode;
 import net.fuxle.awooapi.server.intf.WebServer;
 
+/**
+ * Handler for handling internal server errors (500 status code).
+ * This handler generates a generic HTML response indicating that an internal server error occurred.
+ */
 public class InternalServerErrorHandler implements Handler {
+
+    /**
+     * Handles the request by setting the response status to 500 (Internal Server Error)
+     * and providing a simple HTML response body to indicate the error.
+     *
+     * @param context The {@code HandlerContext} that provides information about the current request and response.
+     */
     @Override
     public void handle(HandlerContext context) {
         context.status(HttpStatusCode.INTERNAL_SERVER_ERROR);

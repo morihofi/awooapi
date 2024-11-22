@@ -5,15 +5,33 @@ import net.fuxle.awooapi.server.intf.HandlerContext;
 import net.fuxle.awooapi.server.intf.StaticFileServing;
 import net.fuxle.awooapi.server.intf.WebServer;
 
+/**
+ * A handler for serving static files from the server.
+ * The {@code StaticFileServingHandler} is responsible for handling requests for static resources,
+ * such as HTML, CSS, JavaScript, images, and other static content.
+ */
 public class StaticFileServingHandler implements Handler {
 
     private final WebServer webServer;
 
+    /**
+     * Constructs a new {@code StaticFileServingHandler} for the given {@code WebServer}.
+     *
+     * @param webServer The {@code WebServer} instance to use for static file serving.
+     */
     public StaticFileServingHandler(WebServer webServer) {
         this.webServer = webServer;
     }
 
-
+    /**
+     * Handles the request to serve a static file.
+     * The handler checks if the static file configuration is present, verifies if the requested path exists,
+     * and serves the content if it is a file.
+     *
+     * @param context The {@code HandlerContext} that provides information about the current request and response.
+     * @throws IllegalStateException If static file serving is not configured or the path does not exist.
+     * @throws UnsupportedOperationException If the requested path is not a file.
+     */
     @Override
     public void handle(HandlerContext context) {
 
