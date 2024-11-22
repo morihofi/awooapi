@@ -77,17 +77,15 @@ public class KeyStorage {
      * @param filePath The path to the file containing the public key.
      * @return The public key.
      * @throws IOException If an I/O error occurs.
-     * @throws NoSuchAlgorithmException If the algorithm is not supported.
      * @throws InvalidKeySpecException If the key specification is invalid.
      */
-    public static PublicKey readPublicKey(Path filePath) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
+    public static PublicKey readPublicKey(Path filePath) throws IOException, InvalidKeySpecException {
         try (PEMParser pemParser = new PEMParser(new FileReader(filePath.toFile()))) {
             JcaPEMKeyConverter converter = new JcaPEMKeyConverter().setProvider("BC");
             Object pemObject = pemParser.readObject();
             if (pemObject instanceof SubjectPublicKeyInfo) {
                 return converter.getPublicKey((SubjectPublicKeyInfo) pemObject);
-            } else if (pemObject instanceof PEMKeyPair) {
-                PEMKeyPair pemKeyPair = (PEMKeyPair) pemObject;
+            } else if (pemObject instanceof PEMKeyPair pemKeyPair) {
                 return converter.getPublicKey(pemKeyPair.getPublicKeyInfo());
             } else {
                 throw new InvalidKeySpecException("Invalid PEM file format: " + filePath);
@@ -101,16 +99,13 @@ public class KeyStorage {
      * @param filePath The path to the file containing the private key.
      * @return The private key.
      * @throws IOException If an I/O error occurs.
-     * @throws NoSuchAlgorithmException If the algorithm is not supported.
-     * @throws InvalidKeySpecException If the key specification is invalid.
      */
-    public static PrivateKey readPrivateKey(Path filePath) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
+    public static PrivateKey readPrivateKey(Path filePath) throws IOException {
         FileReader fileReader = new FileReader(filePath.toFile());
         PEMParser pemParser = new PEMParser(fileReader);
         JcaPEMKeyConverter converter = new JcaPEMKeyConverter();
         Object object = pemParser.readObject();
-        if (object instanceof PrivateKeyInfo) {
-            PrivateKeyInfo privateKeyInfo = (PrivateKeyInfo) object;
+        if (object instanceof PrivateKeyInfo privateKeyInfo) {
             return converter.getPrivateKey(privateKeyInfo);
         } else {
             throw new IllegalArgumentException("Invalid private key format.");

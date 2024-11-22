@@ -15,7 +15,7 @@ public class StaticFileServingHandler implements Handler {
 
 
     @Override
-    public void handle(HandlerContext context) throws Exception {
+    public void handle(HandlerContext context) {
 
         StaticFileServing staticFileServing = webServer.getStaticFileServing();
         if(staticFileServing == null){

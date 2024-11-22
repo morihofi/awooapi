@@ -4,6 +4,7 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Objects;
 
 /**
  * Helper class for retrieving application directory and JAR file path.
@@ -47,7 +48,7 @@ public class AppDirectoryHelper {
      */
     public static Path getAppDirectoryUsingClassLoader(ClassLoader classLoader) {
         try {
-            File file = new File(classLoader.getResource("").toURI());
+            File file = new File(Objects.requireNonNull(classLoader.getResource("")).toURI());
             return file.toPath();
         } catch (Exception e) {
             return null;
@@ -62,7 +63,7 @@ public class AppDirectoryHelper {
      */
     public static Path getAppJarFilePathUsingClassLoader(ClassLoader classLoader) {
         try {
-            File file = new File(classLoader.getResource("").toURI());
+            File file = new File(Objects.requireNonNull(classLoader.getResource("")).toURI());
             return file.toPath();
         } catch (Exception e) {
             return null;

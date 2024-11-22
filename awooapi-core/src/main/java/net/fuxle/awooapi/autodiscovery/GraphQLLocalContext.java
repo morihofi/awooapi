@@ -11,9 +11,9 @@ import net.fuxle.awooapi.server.intf.HandlerContext;
  */
 public record GraphQLLocalContext(HandlerContext handlerContext) {
     /**
-     * Constructs a new GraphQLLocalContext with the provided Javalin HTTP context.
+     * Constructs a new GraphQLLocalContext with the provided HTTP context.
      *
-     * @param handlerContext The Javalin HTTP context associated with the GraphQL execution.
+     * @param handlerContext The HTTP context associated with the GraphQL execution.
      */
     public GraphQLLocalContext {
     }

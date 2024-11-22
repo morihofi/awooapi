@@ -1,13 +1,11 @@
 package net.fuxle.awooapi.server.intf;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.InvalidPathException;
-import java.util.Objects;
 
 public class StaticFileServing {
 
@@ -17,9 +15,9 @@ public class StaticFileServing {
         this.classLoader = classLoader;
     }
 
-    private STORAGE_LOCATION location;
-    private String path;
-    private ClassLoader classLoader;
+    private final STORAGE_LOCATION location;
+    private final String path;
+    private final ClassLoader classLoader;
 
     public boolean existsFileOrDirectory(String relativePath) {
         Path resolvedPath = resolvePath(relativePath);

@@ -7,7 +7,7 @@ import net.fuxle.awooapi.server.intf.WebServer;
 
 public class InternalServerErrorHandler implements Handler {
     @Override
-    public void handle(HandlerContext context) throws Exception {
+    public void handle(HandlerContext context) {
         context.status(HttpStatusCode.INTERNAL_SERVER_ERROR);
         context.contentType("text/html");
         context.result(String.format("""

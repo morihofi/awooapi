@@ -5,4 +5,5 @@ module awooapi.core {
     requires com.google.gson;
     requires org.reflections;
     requires awooapi.annotations;
+    requires com.cronutils;
 }

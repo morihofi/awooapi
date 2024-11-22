@@ -2,7 +2,6 @@ package net.fuxle.awooapi.utilities.internals.helper;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class MavenHelper {
 

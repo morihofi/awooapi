@@ -5,7 +5,7 @@ import net.fuxle.awooapi.server.intf.HandlerContext;
 
 public class AnyCORSBeforeHandler implements Handler {
     @Override
-    public void handle(HandlerContext context) throws Exception {
+    public void handle(HandlerContext context) {
         //CORS
         context.header("Access-Control-Allow-Origin", "*");
         context.header("Access-Control-Allow-Methods", "*");

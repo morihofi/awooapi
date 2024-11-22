@@ -20,7 +20,7 @@ public class AwooApiServlet extends HttpServlet {
     }
 
     @Override
-    protected void service(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void service(HttpServletRequest req, HttpServletResponse resp) {
         String method = req.getMethod();
         String path = req.getRequestURI();
 

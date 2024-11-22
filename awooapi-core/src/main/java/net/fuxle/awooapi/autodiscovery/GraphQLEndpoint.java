@@ -6,9 +6,6 @@ import com.google.gson.JsonObject;
 import graphql.ExecutionInput;
 import graphql.GraphQL;
 import graphql.schema.GraphQLSchema;
-import graphql.schema.idl.RuntimeWiring;
-import graphql.schema.idl.SchemaGenerator;
-import graphql.schema.idl.TypeDefinitionRegistry;
 import net.fuxle.awooapi.server.intf.HandlerContext;
 import net.fuxle.awooapi.server.intf.Handler;
 import org.slf4j.Logger;
@@ -19,7 +16,7 @@ import java.util.Collections;
 import java.util.Map;
 
 /**
- * A Javalin handler class responsible for handling GraphQL queries and mutations.
+ * A handler class responsible for handling GraphQL queries and mutations.
  * This class uses the provided GraphQL schema and wiring to execute GraphQL queries and return JSON responses.
  *
  * @author Moritz Hofmann
@@ -32,20 +29,16 @@ public class GraphQLEndpoint implements Handler {
      * The GraphQL instance used to execute GraphQL queries.
      */
     private final GraphQL graphQL;
+    private final GraphQLSchema schema;
 
     /**
      * Constructs a new GraphQLEndpoint with the provided schema and wiring.
      *
-     * @param schema The TypeDefinitionRegistry containing the GraphQL schema.
-     * @param wiring The RuntimeWiring defining how the schema should be wired.
+     * @param schema GraphQL schema.
      */
-    public GraphQLEndpoint(TypeDefinitionRegistry schema, RuntimeWiring wiring) {
-        GraphQLSchema graphQLSchema = new SchemaGenerator().makeExecutableSchema(
-                schema,
-                wiring
-        );
-
-        graphQL = GraphQL.newGraphQL(graphQLSchema).build();
+    public GraphQLEndpoint(GraphQLSchema schema) {
+       graphQL = GraphQL.newGraphQL(schema).build();
+       this.schema = schema;
     }
 
     /**
@@ -98,5 +91,9 @@ public class GraphQLEndpoint implements Handler {
 
         // Execute the GraphQL query and return the result as JSON
         ctx.result(gson.toJson(responseJSON));
+    }
+
+    public GraphQLSchema getSchema() {
+        return schema;
     }
 }

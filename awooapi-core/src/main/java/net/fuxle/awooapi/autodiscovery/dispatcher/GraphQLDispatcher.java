@@ -3,28 +3,27 @@ package net.fuxle.awooapi.autodiscovery.dispatcher;
 import graphql.schema.DataFetcher;
 import graphql.schema.DataFetchingEnvironment;
 import net.fuxle.awooapi.autodiscovery.GraphQLLocalContext;
-import net.fuxle.awooapi.autodiscovery.abstracttemplates.MultiEndpointTemplate;
-import net.fuxle.awooapi.autodiscovery.utility.Parameters;
+import net.fuxle.awooapi.core.templates.AbstractEndpoint;
+import net.fuxle.awooapi.core.api.Parameters;
 
 /**
  * A data fetcher implementation for GraphQL that serves as a dispatcher to handle GraphQL queries.
- * It uses an instance of {@link MultiEndpointTemplate} to process GraphQL queries and return results.
+ * It uses an instance of {@link AbstractEndpoint} to process GraphQL queries and return results.
  *
  * @param <T> The type of data to be fetched and returned by this dispatcher.
- * @author Moritz Hofmann
  */
 public class GraphQLDispatcher<T> implements DataFetcher<T> {
     /**
-     * The instance of {@link MultiEndpointTemplate} used to process GraphQL queries.
+     * The instance of {@link AbstractEndpoint} used to process GraphQL queries.
      */
-    private final MultiEndpointTemplate multiEndpointInstance;
+    private final AbstractEndpoint<T> multiEndpointInstance;
 
     /**
-     * Constructs a new GraphQLDispatcher with the provided instance of {@link MultiEndpointTemplate}.
+     * Constructs a new GraphQLDispatcher with the provided instance of {@link AbstractEndpoint}.
      *
-     * @param multiEndpointInstance The instance of {@link MultiEndpointTemplate} to be used for processing queries.
+     * @param multiEndpointInstance The instance of {@link AbstractEndpoint} to be used for processing queries.
      */
-    public GraphQLDispatcher(MultiEndpointTemplate multiEndpointInstance) {
+    public GraphQLDispatcher(AbstractEndpoint<T> multiEndpointInstance) {
         this.multiEndpointInstance = multiEndpointInstance;
     }
 
@@ -52,6 +51,6 @@ public class GraphQLDispatcher<T> implements DataFetcher<T> {
         );
 
         // Run the multiEndpointInstance to process the GraphQL query and return the result
-        return (T) multiEndpointInstance.handleRequest(params);
+        return multiEndpointInstance.handleRequest(params);
     }
 }

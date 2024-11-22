@@ -7,7 +7,7 @@ import net.fuxle.awooapi.server.intf.WebServer;
 
 public class NotFoundHandler implements Handler {
     @Override
-    public void handle(HandlerContext context) throws Exception {
+    public void handle(HandlerContext context) {
         context.status(HttpStatusCode.NOT_FOUND);
         context.contentType("text/html");
         context.result(String.format("""
