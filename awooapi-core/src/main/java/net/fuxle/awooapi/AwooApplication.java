@@ -1,10 +1,11 @@
 package net.fuxle.awooapi;
 
-import net.fuxle.awooapi.core.manager.CronJobManager;
-import net.fuxle.awooapi.autodiscovery.ClassDiscovery;
-import net.fuxle.awooapi.exceptions.NotInitializedException;
+import net.fuxle.awooapi.common.plugin.AwooPluginManager;
+import net.fuxle.awooapi.core.autodiscovery.ClassDiscovery;
+import net.fuxle.awooapi.core.exceptions.NotInitializedException;
 import net.fuxle.awooapi.server.intf.Router;
 import net.fuxle.awooapi.server.intf.WebServer;
+import net.fuxle.awooapi.utilities.internals.AwooPluginManagerWrapper;
 import net.fuxle.awooapi.utilities.internals.ClassloaderUtil;
 import net.fuxle.awooapi.utilities.internals.helper.AppDirectoryHelper;
 import net.fuxle.awooapi.utilities.internals.helper.MavenHelper;
@@ -13,7 +14,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
-import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 
 public class AwooApplication {
@@ -21,8 +21,9 @@ public class AwooApplication {
     private final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private final RuntimeConfiguration configuration;
     private final ClassLoader callingClassLoader;
+    private final AwooPluginManagerWrapper pluginManagerWrapper = new AwooPluginManagerWrapper(this);
     private boolean hasInitialized = false;
-    private final CronJobManager cronJobManager = new CronJobManager();
+
 
     private ClassDiscovery discovery;
 
@@ -51,7 +52,7 @@ public class AwooApplication {
         log.info("GraphQL schema dump completed");
     }
 
-    public void dumpGraphQlSchema() throws IOException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, NotInitializedException, ClassNotFoundException {
+    public void dumpGraphQlSchema() throws IOException, NotInitializedException {
         Path target = AppDirectoryHelper.getAppDirectoryUsingClassLoader(callingClassLoader);
 
         if (target == null) {
@@ -84,8 +85,7 @@ public class AwooApplication {
         return webServer;
     }
 
-    public CronJobManager getCronJobManager() {
-        return cronJobManager;
+    public AwooPluginManager getPluginManager() {
+        return pluginManagerWrapper.getPluginManager();
     }
-
 }

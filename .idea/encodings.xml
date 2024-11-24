@@ -11,6 +11,10 @@
     <file url="file://$PROJECT_DIR$/awooapi-cryptography/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/awooapi-graphql/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/awooapi-graphql/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/awooapi-plugin-intf/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/awooapi-plugin-intf/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/awooapi-plugin-scheduler/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/awooapi-plugin-scheduler/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/awooapi-server-awoohttp/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/awooapi-server-awoohttp/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/awooapi-server-intf/src/main/java" charset="UTF-8" />

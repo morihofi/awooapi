@@ -25,6 +25,8 @@
         <module>awooapi-server-intf</module>
         <module>awooapi-server-jetty</module>
         <module>awooapi-annotation-processor</module>
+        <module>awooapi-plugin-scheduler</module>
+        <module>awooapi-plugin-intf</module>
     </modules>
 
     <build>

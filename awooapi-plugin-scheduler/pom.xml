@@ -9,49 +9,29 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>awooapi-core</artifactId>
+    <artifactId>awooapi-plugin-scheduler</artifactId>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-        <!-- Web Service Stuff -->
-        <graphql.version>22.3</graphql.version>
-
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>com.graphql-java</groupId>
-            <artifactId>graphql-java</artifactId>
-            <version>${graphql.version}</version>
+            <groupId>net.fuxle.awooapi</groupId>
+            <artifactId>awooapi-plugin-intf</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.11.0</version>
+            <groupId>com.cronutils</groupId>
+            <artifactId>cron-utils</artifactId>
+            <version>9.2.0</version>
         </dependency>
         <dependency>
             <groupId>org.reflections</groupId>
             <artifactId>reflections</artifactId>
             <version>0.10.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>net.fuxle.awooapi</groupId>
-            <artifactId>awooapi-annotations</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>net.fuxle.awooapi</groupId>
-            <artifactId>awooapi-server-intf</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>net.fuxle.awooapi</groupId>
-            <artifactId>awooapi-plugin-intf</artifactId>
-            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

@@ -1,6 +1,7 @@
 package net.fuxle.awooapi.autodiscovery.loader;
 
-import net.fuxle.awooapi.exceptions.AwooApiException;
+import net.fuxle.awooapi.core.autodiscovery.loader.LoaderHelper;
+import net.fuxle.awooapi.core.exceptions.AwooApiException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
