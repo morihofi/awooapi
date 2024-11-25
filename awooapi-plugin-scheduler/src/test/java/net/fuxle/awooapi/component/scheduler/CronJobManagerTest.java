@@ -1,5 +1,7 @@
 package net.fuxle.awooapi.component.scheduler;
 
+import net.fuxle.awooapi.common.plugin.AwooPluginManager;
+import net.fuxle.awooapi.common.plugin.impl.PluginEnvironment;
 import net.fuxle.awooapi.component.scheduler.intf.AbstractCronJob;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +15,7 @@ class CronJobManagerTest {
 
     @Test
     void testValidCronExpression() {
-        CronJobPlugin manager = new CronJobPlugin(null);
+        CronJobPlugin manager = new CronJobPlugin(getSampleTestEnv());
 
         // Test with a valid cron expression
         String validExpression = "*/5 * * * *"; // Every 5 minutes
@@ -27,7 +29,7 @@ class CronJobManagerTest {
 
     @Test
     void testInvalidCronExpression() {
-        CronJobPlugin manager = new CronJobPlugin(null);
+        CronJobPlugin manager = new CronJobPlugin(getSampleTestEnv());
 
         // Test with an invalid cron expression
         String invalidExpression = "invalid";
@@ -37,7 +39,7 @@ class CronJobManagerTest {
 
     @Test
     void testHourlyCronExpression() {
-        CronJobPlugin manager = new CronJobPlugin(null);
+        CronJobPlugin manager = new CronJobPlugin(getSampleTestEnv());
 
         // Test hourly cron expression
         String hourlyExpression = "0 * * * *"; // At the top of every hour
@@ -51,7 +53,7 @@ class CronJobManagerTest {
 
     @Test
     void testPredefinedCronExpression() {
-        CronJobPlugin manager = new CronJobPlugin(null);
+        CronJobPlugin manager = new CronJobPlugin(getSampleTestEnv());
 
         // Test predefined @hourly cron expression
         String hourlyExpression = "@hourly";
@@ -65,7 +67,7 @@ class CronJobManagerTest {
 
     @Test
     void testJobScheduling() {
-        CronJobPlugin manager = new CronJobPlugin(null);
+        CronJobPlugin manager = new CronJobPlugin(getSampleTestEnv());
 
         // Use a CountDownLatch to track job execution
         CountDownLatch latch = new CountDownLatch(1);
@@ -94,7 +96,7 @@ class CronJobManagerTest {
 
     @Test
     void testMultipleJobScheduling() {
-        CronJobPlugin manager = new CronJobPlugin(null);
+        CronJobPlugin manager = new CronJobPlugin(getSampleTestEnv());
 
         // Use a CountDownLatch to track multiple job executions
         int numberOfJobs = 3;
@@ -120,5 +122,13 @@ class CronJobManagerTest {
         } catch (InterruptedException e) {
             fail("Test interrupted: " + e.getMessage());
         }
+    }
+
+    private PluginEnvironment getSampleTestEnv() {
+        return new PluginEnvironment(
+                null,
+                new AwooPluginManager(null),
+                new CronJobPluginConfig(5).getParameter()
+                );
     }
 }
