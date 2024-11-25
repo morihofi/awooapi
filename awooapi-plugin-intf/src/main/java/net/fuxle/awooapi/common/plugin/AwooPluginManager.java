@@ -3,20 +3,20 @@ package net.fuxle.awooapi.common.plugin;
 import net.fuxle.awooapi.common.plugin.impl.PluginEnvironment;
 import net.fuxle.awooapi.common.plugin.intf.AbstractPlugin;
 import net.fuxle.awooapi.server.intf.WebServer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Constructor;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Manages the lifecycle of plugins, including their registration, initialization, and unloading.
  */
 public class AwooPluginManager {
 
+    private static final Logger log = LoggerFactory.getLogger(AwooPluginManager.class);
     private final WebServer webServer;
+
 
     /**
      * Map to store registered plugin classes and their initialized instances.
@@ -26,7 +26,24 @@ public class AwooPluginManager {
 
     public AwooPluginManager(WebServer webServer){
         this.webServer = webServer;
+
+        Runtime.getRuntime().addShutdownHook(new Thread((this::unloadAllPlugins)));
     }
+
+    public void unloadAllPlugins() {
+        // Iterate over the entries of the map and unload plugins safely
+        for (AbstractPlugin pluginInstance : new ArrayList<>(plugins.values())) {
+            try {
+                pluginInstance.unload();
+            } catch (Exception e) {
+                // Log the error in case the plugin fails to unload properly
+                log.error("Failed to unload plugin: {}", pluginInstance.getClass().getName(), e);
+            }
+        }
+        // Clear the plugins map after unloading all plugins
+        plugins.clear();
+    }
+
 
     /**
      * Registers a plugin class. Ensures that only one instance of a plugin class can be registered.
