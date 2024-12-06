@@ -41,5 +41,5 @@ public class CommonAwooApiHandlers {
      * Handler for 500 Internal Server Error responses.
      * This handler is used to respond when an internal error occurs during request processing.
      */
-    public static final Handler INTERNAL_SERVER_ERROR_HANDLER = new InternalServerErrorHandler();
+    public static final ExceptionHandler INTERNAL_SERVER_ERROR_HANDLER = new InternalServerErrorHandler();
 }

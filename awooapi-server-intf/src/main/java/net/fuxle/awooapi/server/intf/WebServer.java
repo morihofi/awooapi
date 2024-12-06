@@ -1,6 +1,13 @@
 package net.fuxle.awooapi.server.intf;
 
+import net.fuxle.awooapi.server.common.Router;
+import net.fuxle.awooapi.server.common.StaticFileServing;
+import net.fuxle.awooapi.server.common.WebServerConfig;
+import net.fuxle.awooapi.server.intf.handler.ExceptionHandler;
+import net.fuxle.awooapi.server.intf.handler.common.InternalServerErrorHandler;
 import net.fuxle.awooapi.server.intf.handler.staticfiles.StaticFileServingHandler;
+
+import javax.net.ssl.SSLContext;
 
 /**
  * Represents an abstract web server that handles HTTP requests and responses.
@@ -10,9 +17,9 @@ import net.fuxle.awooapi.server.intf.handler.staticfiles.StaticFileServingHandle
 public abstract class WebServer {
     private final Router router = new Router();
     private final StaticFileServingHandler staticFileServingHandler = new StaticFileServingHandler(this);
-    private Handler beforeRequestHandler = null;
-    private Handler afterRequestHandler = null;
+    private ExceptionHandler exceptionHandler = new InternalServerErrorHandler();
     private StaticFileServing staticFileServing = null;
+    private final WebServerConfig webServerConfig = new WebServerConfig();
 
     /**
      * Retrieves the "Powered By" value of the server.
@@ -24,12 +31,11 @@ public abstract class WebServer {
     }
 
     /**
-     * Starts the web server on the given port.
+     * Starts the web server with the configuration
      *
-     * @param port The port number on which the server will listen for requests.
      * @throws Exception If an error occurs while starting the server.
      */
-    public abstract void start(int port) throws Exception;
+    public abstract void start() throws Exception;
 
     /**
      * Stops the web server.
@@ -45,42 +51,6 @@ public abstract class WebServer {
      */
     public Router getRouter() {
         return router;
-    }
-
-    /**
-     * Retrieves the handler to be executed before each request.
-     *
-     * @return The {@code Handler} to be executed before each request, or {@code null} if none is set.
-     */
-    public Handler getBeforeRequestHandler() {
-        return beforeRequestHandler;
-    }
-
-    /**
-     * Sets the handler to be executed before each request.
-     *
-     * @param beforeRequestHandler The {@code Handler} to be executed before each request.
-     */
-    public void setBeforeRequestHandler(Handler beforeRequestHandler) {
-        this.beforeRequestHandler = beforeRequestHandler;
-    }
-
-    /**
-     * Retrieves the handler to be executed after each request.
-     *
-     * @return The {@code Handler} to be executed after each request, or {@code null} if none is set.
-     */
-    public Handler getAfterRequestHandler() {
-        return afterRequestHandler;
-    }
-
-    /**
-     * Sets the handler to be executed after each request.
-     *
-     * @param afterRequestHandler The {@code Handler} to be executed after each request.
-     */
-    public void setAfterRequestHandler(Handler afterRequestHandler) {
-        this.afterRequestHandler = afterRequestHandler;
     }
 
     /**
@@ -108,5 +78,27 @@ public abstract class WebServer {
      */
     public StaticFileServingHandler getStaticFileServingHandler() {
         return staticFileServingHandler;
+    }
+
+
+    /**
+     * Hot reloads the SSL context with a new certificate.
+     *
+     * @param newSslContext The new {@code SSLContext} to apply.
+     * @throws Exception If an error occurs during the update.
+     */
+    public abstract void reloadSslContext(SSLContext newSslContext) throws Exception;
+
+
+    public WebServerConfig getWebServerConfig() {
+        return webServerConfig;
+    }
+
+    public ExceptionHandler getExceptionHandler() {
+        return exceptionHandler;
+    }
+
+    public void setExceptionHandler(ExceptionHandler exceptionHandler) {
+        this.exceptionHandler = exceptionHandler;
     }
 }

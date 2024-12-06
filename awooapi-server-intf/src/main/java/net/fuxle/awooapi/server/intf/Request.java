@@ -53,4 +53,12 @@ public interface Request {
      * @return The value of the specified query parameter, or {@code null} if the parameter is not present.
      */
     String getQueryParam(String name);
+
+    /**
+     * Retrieves the body content of the HTTP request as Bytes
+     *
+     * @return The body of the request as a {@code String}.
+     * @throws IOException If an input or output exception occurs while reading the body content.
+     */
+    byte[] getBodyBytes() throws IOException;
 }

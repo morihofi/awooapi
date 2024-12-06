@@ -6,6 +6,7 @@ import net.fuxle.awooapi.server.intf.Endpoint;
 class JettyWebServerTest {
     public static void main(String[] args) throws Exception {
         JettyWebServer webServer = new JettyWebServer();
+        webServer.getWebServerConfig().setHttpPort(8080);
 
         // Beispiel: Einen Handler hinzufügen
         webServer.getRouter().addHandler(new Endpoint(
@@ -17,6 +18,6 @@ class JettyWebServerTest {
                 }
         ));
 
-        webServer.start(8080);
+        webServer.start();
     }
 }

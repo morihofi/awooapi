@@ -1,5 +1,7 @@
 package net.fuxle.awooapi.server.intf;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
@@ -67,4 +69,6 @@ public abstract class Response {
      * @return A map containing all response headers, where each key is a header name and the corresponding value is the header value.
      */
     public abstract Map<String, String> getHeaders();
+
+    public abstract OutputStream getOutputStream() throws IOException;
 }

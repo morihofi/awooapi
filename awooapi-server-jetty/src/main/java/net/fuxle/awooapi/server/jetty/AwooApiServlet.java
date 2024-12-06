@@ -23,25 +23,20 @@ public class AwooApiServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) {
         String method = req.getMethod();
         String path = req.getRequestURI();
+        HandlerContext context = getHandlerContext(req, resp);
+
 
         resp.setHeader("X-Powered-By", WebServer.getPoweredByValue());
 
         logger.info("Incoming request: method={}, path={}", method, path);
 
-        Handler handler = HandlerType.valueOf(method) ==
-                HandlerType.OPTIONS ?
-                CommonAwooApiHandlers.OPTIONS_HANDLER :
-                webServer.getRouter().getHandler(path, method);
-
-        HandlerContext context = getHandlerContext(req, resp);
-
-
         // Let the Handler do its thing
         try {
-            if (webServer.getBeforeRequestHandler() != null) {
-                logger.debug("Running before request handler");
-                webServer.getBeforeRequestHandler().handle(context);
-            }
+            Handler handler = HandlerType.valueOf(method) ==
+                    HandlerType.OPTIONS ?
+                    CommonAwooApiHandlers.OPTIONS_HANDLER :
+                    webServer.getRouter().getHandler(path, method, context);
+
 
             if (handler == null) {
                 // No handler found, maybe a static file was requested
@@ -59,14 +54,10 @@ public class AwooApiServlet extends HttpServlet {
                 logger.info("Successfully handled request for path: {}", path);
             }
 
-            if (webServer.getAfterRequestHandler() != null) {
-                logger.debug("Running after request handler");
-                webServer.getAfterRequestHandler().handle(context);
-            }
         } catch (Exception e) {
             logger.error("Error while handling request for path: {}", path, e);
             try {
-                CommonAwooApiHandlers.INTERNAL_SERVER_ERROR_HANDLER.handle(context);
+                webServer.getExceptionHandler().handle(e, context);
             } catch (Exception ignored) {
             }
 

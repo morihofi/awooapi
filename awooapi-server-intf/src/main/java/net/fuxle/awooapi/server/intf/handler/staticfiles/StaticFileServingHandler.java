@@ -2,7 +2,7 @@ package net.fuxle.awooapi.server.intf.handler.staticfiles;
 
 import net.fuxle.awooapi.server.intf.Handler;
 import net.fuxle.awooapi.server.intf.HandlerContext;
-import net.fuxle.awooapi.server.intf.StaticFileServing;
+import net.fuxle.awooapi.server.common.StaticFileServing;
 import net.fuxle.awooapi.server.intf.WebServer;
 
 /**

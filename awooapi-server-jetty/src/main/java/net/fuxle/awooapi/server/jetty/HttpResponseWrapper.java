@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import net.fuxle.awooapi.server.intf.Response;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,6 +30,11 @@ public class HttpResponseWrapper extends Response {
     @Override
     public Map<String, String> getHeaders() {
         return headers;
+    }
+
+    @Override
+    public OutputStream getOutputStream() throws IOException {
+        return response.getOutputStream();
     }
 
     @Override

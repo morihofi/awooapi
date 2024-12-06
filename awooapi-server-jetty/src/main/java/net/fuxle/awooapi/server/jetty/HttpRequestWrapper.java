@@ -42,4 +42,9 @@ public class HttpRequestWrapper implements Request {
     public String getQueryParam(String name) {
         return request.getParameter(name);
     }
+
+    @Override
+    public byte[] getBodyBytes() throws IOException {
+        return request.getInputStream().readAllBytes();
+    }
 }

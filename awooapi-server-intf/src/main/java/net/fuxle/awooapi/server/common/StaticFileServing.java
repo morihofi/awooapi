@@ -1,4 +1,4 @@
-package net.fuxle.awooapi.server.intf;
+package net.fuxle.awooapi.server.common;
 
 import java.io.IOException;
 import java.io.InputStream;

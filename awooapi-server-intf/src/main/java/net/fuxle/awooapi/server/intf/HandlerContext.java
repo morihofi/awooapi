@@ -1,6 +1,11 @@
 package net.fuxle.awooapi.server.intf;
 
+import com.google.gson.Gson;
+import net.fuxle.awooapi.annotations.HandlerType;
+import net.fuxle.awooapi.server.common.Router;
+
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
@@ -10,6 +15,8 @@ import java.util.Map;
  * working with HTTP headers, parameters, and response bodies.
  */
 public record HandlerContext(Request request, Response response, Router router) {
+
+    private static Gson gson = new Gson();;
 
     /**
      * Sets a response header.
@@ -138,5 +145,29 @@ public record HandlerContext(Request request, Response response, Router router) 
      */
     public Map<String, String> getResponseHeaders() {
         return response.getHeaders();
+    }
+
+    public void json(Object objectToBeSerialized) {
+        String json = gson.toJson(objectToBeSerialized);
+        contentType("application/json"); // Set Content-Type as JSON
+        result(json); // Set the serialized JSON as the response body
+    }
+
+    public byte[] bodyAsBytes() throws IOException {
+        return request.getBodyBytes();
+    }
+
+    public ByteBuffer bodyAsByteBuffer() throws IOException {
+        return ByteBuffer.wrap(bodyAsBytes());
+    }
+
+    public <T> T bodyAsClass(Class<T> targetClazz) throws IOException {
+        Gson gson = new Gson();
+        String requestBody = body(); // Get the request body as a string
+        return gson.fromJson(requestBody, targetClazz); // Deserialize into the specified class
+    }
+
+    public HandlerType method(){
+       return HandlerType.valueOf(request.getMethod());
     }
 }

@@ -5,6 +5,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import net.fuxle.awooapi.component.cryptography.keys.KeyUtil;
 import org.bouncycastle.jce.ECNamedCurveTable;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.jce.spec.ECNamedCurveParameterSpec;
@@ -58,19 +59,19 @@ public class JWTTokenUtil {
 
             log.info("\uD83D\uDD12 Key generated, dumping to file");
 
-            PemKeyStorage.savePublicKey(jwtPublicKey, jwtPublicKeyFile);
+            KeyUtil.savePublicKeyToPem(jwtPublicKey, jwtPublicKeyFile);
             log.info("\uD83D\uDCBE JWT Public Key saved to " + jwtPublicKeyFile);
 
-            PemKeyStorage.savePrivateKey(jwtPrivateKey, jwtPrivateKeyFile);
+            KeyUtil.savePrivateKeyToPem(jwtPrivateKey, jwtPrivateKeyFile);
             log.info("\uD83D\uDCBE JWT Private Key saved to " + jwtPrivateKeyFile);
         } else {
 
             log.info("\uD83D\uDDC3\uFE0F Loading JWT Public Key from " + jwtPublicKeyFile);
-            jwtPublicKey = (ECPublicKey) PemKeyStorage.readPublicKey(jwtPublicKeyFile);
+            jwtPublicKey = (ECPublicKey) KeyUtil.readPublicKeyFromPem(jwtPublicKeyFile);
             log.info("JWT Public Key loaded");
 
             log.info("\uD83D\uDDC3\uFE0F Loading JWT Private Key from " + jwtPrivateKeyFile);
-            jwtPrivateKey = (ECPrivateKey) PemKeyStorage.readPrivateKey(jwtPrivateKeyFile);
+            jwtPrivateKey = (ECPrivateKey) KeyUtil.readPrivateKeyFromPem(jwtPrivateKeyFile);
             log.info("JWT Private Key loaded");
 
         }
